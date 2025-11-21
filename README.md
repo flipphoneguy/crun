@@ -1,4 +1,4 @@
-#crun
+# crun
 
 just a wrapper to automate compiling and running c on termux.
 
@@ -12,6 +12,6 @@ setup:
 - in termux run 'cp /path/to/crun $BIN'
 - then just run 'chmod +x $BIN/crun'
 
-###That's it! You can now run 'crun -h' to ensure its working.
+### That's it! You can now run 'crun -h' to ensure its working.
 
-credits: flipphoneguy
+## credits: flipphoneguy
