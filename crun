@@ -1,0 +1,59 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "run crun -h for usage"
+  exit 1
+fi
+
+while [ $# -gt 0 ]; do
+ case "$1" in
+  -h|--help)
+   echo -e "usage: crun [-sd] <source.c>\ncopies c script to termux home, executes and keeps the output to make quicker subsiquent compilations unless used with option -d which then deletes the output. option -s saves output also to current dir.\ncredits: @flipphoneguy"
+   exit 0
+   ;;
+  -s)
+   SFLAG=true
+   ;;
+  -d)
+   DFLAG=true
+   ;;
+  -sd|-ds)
+   SFLAG=true
+   DFLAG=true
+   ;;
+  -*)
+   echo "invalid option '$1'"
+   exit 1
+   ;;
+  *)
+   if [ "$FILE" ]; then
+    echo "only accepts 1 file argument but more were given."
+    exit 1
+   fi
+   FILE="$1"
+   ;;
+ esac
+ shift
+done
+
+
+if [ ! -f "$FILE" ]; then
+  echo "Error: file '$FILE' not found."
+  exit 1
+fi
+
+OUT="/data/data/com.termux/files/home/c/${FILE}.o"
+mkdir -p /data/data/com.termux/files/home/c
+clang "$FILE" -o "$OUT"
+chmod +x "$OUT"
+"$OUT"
+
+if [ "$SFLAG" = "true" ]; then
+  cp "$OUT" "."
+fi
+if [ "$DFLAG" = "true" ]; then
+  rm "$OUT"
+fi
+exit 0
